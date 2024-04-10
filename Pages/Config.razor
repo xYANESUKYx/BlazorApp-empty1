@@ -1,0 +1,51 @@
+﻿@page "/config"
+@inject IJSRuntime jsRuntime;
+@inject NavigationManager NavigationManager
+
+<head><link rel="stylesheet" href="js/JavaScript.js" /></head>
+
+
+
+<div style="position: relative; height: 100vh; font-weight: bold; justify-content: center; ">
+    <p style="font-size: 9vw; color: black; margin-top: 40px; text-align: center;">Configuración</p>
+
+    <p @onclick="IrAInicio" style="cursor: pointer; 
+    background-color: #4CAF50;
+    padding: 10px 20px; 
+    border: none;
+    border-radius: 20px; 
+    font-size: 3vw; 
+    color: black; 
+    text-align: center;
+    width: 500px;
+    display: block; 
+    margin: 0 auto;">Estado de los pedidos</p>
+
+
+    <img style=" position: fixed; bottom: -70px; right: -100px; opacity: 0.5; z-index: -1; height: 500px; text-align: center;" src="https://ronys.es/wp-content/uploads/2016/01/BRASA-RECORTADA.png" >
+
+    <input type="color" id="color-picker"> 
+    <button  @onclick="Prueba" >Cambiar color</button> 
+    <p class="classtext">Texto de ejemplo</p>
+</div>
+
+
+
+@code {
+    private async Task Prueba()
+    {
+        await jsRuntime.InvokeVoidAsync("mostrarAlerta");
+    }
+
+    private void IrAInicio()
+    {
+        NavigationManager.NavigateTo("");
+    }
+
+}
+
+
+
+@functions {
+    
+}

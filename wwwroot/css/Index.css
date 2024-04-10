@@ -1,0 +1,75 @@
+﻿#buttonConfig {
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    opacity: 0;
+    z-index: 1;
+}
+
+#divCola {
+    flex: 1;
+    color: red;
+    margin-left: 5%;
+}
+
+#pCola {
+    font-size: 6vw;
+    color: black;
+    margin-bottom: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    white-space: nowrap;
+}
+
+#divPreparando {
+    flex: 1;
+    color: #FFA200;
+}
+
+#divListo {
+    flex: 1;
+    color: green;
+    margin-left: 12%;
+}
+
+#pPreparando {
+    margin-left: 10%;
+    font-size: 6vw;
+    color: black;
+    margin-bottom: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#pListo {
+    font-size: 6vw;
+    color: black;
+    margin-bottom: 20px;
+    font-family: Arial, Helvetica, sans-serif
+}
+
+#hr1 {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    transform: translateX(-50%);
+    border: none;
+    height: 100%;
+    width: 2px;
+    background-color: red;
+}
+
+.pForeach {
+    font-size: 4vw;
+    animation: animation 1s ease-in-out;
+}
+
+@keyframes animation {
+    0% {
+        font-size: 7vw;
+    }
+
+    100% {
+        font-size: 4vw;
+    }
+}
+
+

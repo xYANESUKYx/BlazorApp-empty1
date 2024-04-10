@@ -1,0 +1,251 @@
+﻿@page "/"
+@inject NavigationManager NavigationManager
+@inject HttpClient Http
+@using System.Net.Http.Headers
+@using Ategest.Api
+@using Ategest.Library.Util
+@using BlazorApp01.Services
+@using System.Text;
+
+
+
+<head><link rel="stylesheet" href="css/Index.css" /></head>
+<div class="background-container" style="display: flex; height: 90vh; font-weight: bold;">
+
+    <button id="buttonConfig" @onclick="Config">Config</button>
+
+    <div id="divCola">
+        <p id="pCola">En cola</p>
+        <div id="enCola">
+            @foreach (var pedido in pedidosCola)
+            {
+                <p class="pForeach">@pedido</p>
+            }
+       </div>
+    </div> 
+
+    <hr id="hr1" style=" position: absolute; top: 0; left: 31%; transform: translateX(-50%); border: none; height: 100%; width: 2px; background-color: black;">
+
+    <div id="divPreparando">
+        <p id="pPreparando" >Preparando</p>
+        <div id="preparacion">
+            @foreach (var pedido in pedidosPreparacion)
+            {
+                <p class="pForeach" style="margin-left: 10%;">@pedido</p>
+            }
+        </div>
+    </div>
+
+    <hr id="hr1" style=" position: absolute; top: 0; left: 75%; transform: translateX(-50%); border: none; height: 100%; width: 2px; background-color: black;">
+
+    <div id="divListo">
+        <p id="pListo">Listo</p>
+        <div id="listos">
+            @foreach (var pedido in pedidosListos)
+            {
+                <p class="pForeach" >@pedido</p>
+            }
+        </div>
+    </div>
+
+    
+</div>
+
+
+<script>
+  // Lista de enlaces a las imágenes que quieres usar como fondo
+  var imageLinks = [
+    "https://imagenes.redatecresa.com/qr/aguita-salada/aguita-salada-3.jpg",
+    "https://imagenes.redatecresa.com/qr/aguita-salada/aguita-salada-1.jpg",
+    "https://imagenes.redatecresa.com/qr/aguita-salada/aguita-salada-2.jpg"
+  ];
+
+  var currentIndex = 0;
+  var backgroundContainer = document.getElementById('background-container');
+
+  function changeBackground() {
+    // Cambiar la imagen de fondo
+    backgroundContainer.style.backgroundImage = "url('" + imageLinks[currentIndex] + "')";
+
+    // Incrementar el índice para obtener la siguiente imagen en el próximo cambio
+    currentIndex = (currentIndex + 1) % imageLinks.length;
+  }
+
+  // Cambiar la imagen de fondo cada 3 segundos
+  setInterval(changeBackground, 3000);
+
+  // Cambiar la imagen de fondo al cargar la página
+  changeBackground();
+</script>
+
+@code {
+
+    private string[] imageUrls = new string[] {
+        "https://imagenes.redatecresa.com/qr/aguita-salada/aguita-salada-3.jpg",
+        "https://imagenes.redatecresa.com/qr/aguita-salada/aguita-salada-1.jpg"
+    };
+
+    private void Config()
+    {
+        NavigationManager.NavigateTo("config");
+    }
+
+    // Arrays para almacenar los pedidos en preparación y los pedidos listos
+    List<string> pedidosCola = new List<string>();
+    List<string> pedidosPreparacion = new List<string>();
+    List<string> pedidosListos = new List<string>();
+
+    public Index()
+    {
+    }
+
+    // Función para agregar un pedido nuevo a la preparación
+    void LlegaPedido(string codigo)
+    {
+        pedidosCola.Add(codigo);
+        ActualizarInterfaz();
+    }
+
+
+    void PedidoPreparando(int index)
+    {
+        string codigo = pedidosCola[index];
+        pedidosCola.RemoveAt(index);
+        pedidosPreparacion.Add(codigo);
+        ActualizarInterfaz();
+    }
+
+
+    void PedidoListo(int index)
+    {
+        string codigo = pedidosPreparacion[index];
+        pedidosPreparacion.RemoveAt(index);
+        pedidosListos.Add(codigo);
+        //pedidosListos.Insert(0, codigo);
+
+        ActualizarInterfaz();
+    }
+
+    void RecogerPedido(string codigo)
+    {
+        pedidosListos.Remove(codigo);
+        ActualizarInterfaz();
+    }
+
+    // Función para actualizar la interfaz
+    void ActualizarInterfaz()
+    {
+        StateHasChanged();
+    }
+
+    // Método para simular el uso de las funciones
+    async Task SimularUso()
+    {
+        LlegaPedido("JTB1");
+        await Task.Delay(1500);
+
+        PedidoPreparando(0);
+        await Task.Delay(2000);
+
+        LlegaPedido("BSO2");
+        await Task.Delay(2000);
+
+        PedidoListo(0);
+        await Task.Delay(2000);
+
+        LlegaPedido("HAI3");
+        await Task.Delay(2000);
+
+        PedidoPreparando(0);
+        await Task.Delay(2000);
+
+        LlegaPedido("ÑYC4");
+        await Task.Delay(2500);
+
+        PedidoListo(0);
+        await Task.Delay(2000);
+
+        RecogerPedido("JTB1");
+        await Task.Delay(2000);
+
+        PedidoPreparando(0);
+        await Task.Delay(2000);
+
+        PedidoListo(0);
+        await Task.Delay(2000);
+
+        RecogerPedido("BSO2");
+        await Task.Delay(2000);
+
+        LlegaPedido("LYV5");
+        await Task.Delay(2500);
+
+        PedidoPreparando(0);
+        await Task.Delay(2000);
+
+        LlegaPedido("JRN6");
+        await Task.Delay(2500);
+
+        PedidoListo(0);
+        await Task.Delay(2000);
+
+        LlegaPedido("LON7");
+        await Task.Delay(2500);
+
+        PedidoPreparando(0);
+        await Task.Delay(2000);
+
+        LlegaPedido("PAE8");
+        await Task.Delay(2500);
+
+        RecogerPedido("ÑYC4");
+        await Task.Delay(2000);
+
+        PedidoPreparando(0);
+        await Task.Delay(2000);
+
+        PedidoListo(0);
+        await Task.Delay(2000);
+
+        RecogerPedido("BSO2");
+        await Task.Delay(2000);
+
+        PedidoPreparando(0);
+        await Task.Delay(2000);
+
+        PedidoListo(0);
+        await Task.Delay(2000);
+
+        PedidoPreparando(0);
+        await Task.Delay(2000);
+
+        RecogerPedido("LYV5");
+        await Task.Delay(2000);
+
+        LlegaPedido("YBR9");
+        await Task.Delay(2500);
+
+        PedidoListo(0);
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            string prueba = "aguita-salada-demo";
+            HttpResponseMessage? responseMessage = await ApiService.MakeRequestAsync($"SingleWeb/GetSettings?slug={prueba}");
+
+            if (responseMessage != null && responseMessage.IsSuccessStatusCode)
+            {
+                string content = await responseMessage.Content.ReadAsStringAsync();
+            }
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await SimularUso();
+    }
+}
+
